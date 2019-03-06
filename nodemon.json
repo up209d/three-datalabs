@@ -1,0 +1,11 @@
+{
+  "verbose": true,
+  "ignore": [
+    "./database",
+    "./src",
+    "./client",
+    "./test",
+    "*.log",
+    "./stats.json"
+  ]
+}

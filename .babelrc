@@ -1,0 +1,37 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "loose": true,
+        "target": {
+          "browsers": [
+            "last 2 versions",
+            "ie >= 10",
+            "safari >= 7"
+          ]
+        },
+        "include": [
+          "transform-es2015-classes"
+        ]
+      }
+    ],
+    "react",
+    "stage-0"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        ["react-hot-loader/babel"],
+        ["direct-import", ["material-ui","material-ui-icons"]],
+        ["transform-decorators-legacy"]
+      ]
+    },
+    "production": {
+      "plugins": [
+        ["direct-import", ["material-ui","material-ui-icons"]],
+        ["transform-decorators-legacy"]
+      ]
+    }
+  }
+}

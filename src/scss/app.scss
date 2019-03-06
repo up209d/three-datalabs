@@ -1,0 +1,26 @@
+$font-base-size: 16px;
+@function toRem($px) {
+  @return ($px/$font-base-size) * 1rem;
+}
+
+html,body {
+  position: fixed;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, Tahoma, sans-serif;
+  font-weight: 300;
+  font-size: toRem(16px);
+  background: #000000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #000000, #434343); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #000000, #434343); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow: hidden;
+}
+
+.app-root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
