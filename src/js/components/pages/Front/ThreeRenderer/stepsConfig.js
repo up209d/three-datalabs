@@ -22,7 +22,7 @@ export default {
           1:  { value: 0.35,  delay: 0,     config: { duration: 30000 } },
           2:  { value: 0.125, delay: 0,     config: { duration: 10000 } },
           3:  { value: 0.0,   delay: 0,     config: { duration:  2000 } },
-          4:  { value: 0.25,  delay: 2000,  config: { duration:  5000, ease: easing.easeIn } },
+          4:  { value: 0.25,  delay: 2000,  config: { duration:  5000, ease: easing.easeInOut } },
         }
       },
       pointOpacity: {

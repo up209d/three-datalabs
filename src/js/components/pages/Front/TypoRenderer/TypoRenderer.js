@@ -26,7 +26,10 @@ const style = theme => ({
     left: 0,
     zIndex: 1,
     // pointerEvents: 'none',
-    transform: 'translate(0,0)'
+    transform: 'translate(0,0)',
+    ['& a']: {
+      textDecoration: 'none'
+    }
   },
   title: {
     fontWeight: 100,
@@ -129,7 +132,7 @@ const Item = posed.div({
 
 class TypoRenderer extends React.Component{
   state = {
-    titles: ['Welcome','Datalabs','Your Data','Our Passion', 'See ya soon!']
+    titles: ['Hey!','I\'m Duc','AKA U.P','UI/UX DEVELOPER', 'See ya soon!']
   };
   handleSubmit = e => {
     e.preventDefault();
@@ -173,9 +176,16 @@ class TypoRenderer extends React.Component{
             props.ui.threeRenderer.step === 4 && (
               <Fade in={true} mountOnEnter unmountOnExit timeout={{enter: 2000,exit: 3000}}>
                 <Typography align={'center'}>
-                  <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
-                    Contact Us
-                  </Button>
+                  <a href={'https://up209d.github.io/UPPortfolio'} target={'_blank'}>
+                    <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
+                      My Homepage
+                    </Button>
+                  </a>
+                  <a href={'mailto: up209d@gmail.com'} target={'_blank'}>
+                    <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
+                      Contact me
+                    </Button>
+                  </a>
                 </Typography>
               </Fade>
             )

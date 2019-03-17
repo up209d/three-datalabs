@@ -106,7 +106,7 @@ class ThreeRenderer extends React.PureComponent {
       wireframe: true
     });
 
-    let cloudTextGeometry = new THREE.TextGeometry('DATA VISUALIZATION',{
+    let cloudTextGeometry = new THREE.TextGeometry('CREATIVE CODING',{
       font: new THREE.Font(font),
       size: 180,
       height: 10
