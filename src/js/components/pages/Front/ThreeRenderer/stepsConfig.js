@@ -48,10 +48,10 @@ export default {
       size: {
         value: {
           defaultValue:
-              { value: 28,  delay: 0, config: { duration:  1000 } },
-          1:  { value: 20,   delay: 0, config: { duration: 10000 } },
-          2:  { value: 32,  delay: 0, config: { duration:  1000 } },
-          3:  { value: 12,   delay: 0, config: { duration:  5000 } },
+              { value: 32,  delay: 0, config: { duration:  1000 } },
+          1:  { value: 16,   delay: 0, config: { duration: 10000 } },
+          2:  { value: 64,  delay: 0, config: { duration:  1000 } },
+          3:  { value: 24,   delay: 0, config: { duration:  5000 } },
           4:  { value: 4,   delay: 0, config: { duration:  5000 } },
         }
       },
@@ -59,7 +59,7 @@ export default {
         value: {
           defaultValue:
               { value: 0.1, delay: 0, config:   { duration:  1000 } },
-          1:  { value: 0.5,   delay: 0, config:   { duration: 20000 } },
+          1:  { value: 0.1,   delay: 0, config:   { duration: 20000 } },
           2:  { value: 0.8, delay: 0, config:   { duration:  1000 } },
           3:  { value: 3.0,  delay: 0, config:   { duration: 30000 } },
           4:  { value: 0.8,  delay: 0, config:  { duration: 30000 } },

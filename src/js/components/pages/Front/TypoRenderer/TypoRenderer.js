@@ -178,12 +178,17 @@ class TypoRenderer extends React.Component{
                 <Typography align={'center'}>
                   <a href={'https://up209d.github.io/UPPortfolio'} target={'_blank'}>
                     <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
-                      My Homepage
+                      Homepage
+                    </Button>
+                  </a>
+                  <a href={'https://up209d.github.io/UPPortfolio/CV.pdf'} target={'_blank'}>
+                    <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
+                      My Resume
                     </Button>
                   </a>
                   <a href={'mailto: up209d@gmail.com'} target={'_blank'}>
                     <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
-                      Contact me
+                      Contact
                     </Button>
                   </a>
                 </Typography>

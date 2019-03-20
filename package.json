@@ -19,7 +19,7 @@
     "build": "npm run clean && echo 'Running Production ...' && npm run env-production && npm run prod",
     "build-win": "npm run clean && echo 'Running Production ...' && npm run env-production && npm run prod-win",
     "gzip": "find ./dist -type f -name '*.css' -o -name '*.html' -o -name '*.js' -o -name '*.json' -o -name '*.svg' | while read file; do gzip -f -k $file; done; echo 'Gzipped Distribution Package!'",
-    "rename": "find ./dist -type f -name 'main.html' | while read file; do mv $file ${file}index.html; done;",
+    "rename": "find ./dist -type f -name 'main.html' | while read file; do mv $file $(echo $file | sed -e 's/main/index/g'); done;",
     "static": "npm run clean && echo 'Running Static Production ...' && NODE_PATH=./:./src:./src/js ./node_modules/babel-cli/bin/babel-node.js ./server/static.production.js && npm run rename && npm run gzip"
   },
   "keywords": [
