@@ -23,7 +23,7 @@
     "rename": "find ./dist -type f -name 'main.html' -o -name 'main.html.gz' | while read file; do mv $file ${file/main/index}; done;",
     "cp": "cp ./.gitignore ./dist/.gitignore && cp ./README.md ./dist/README.md",
     "static": "npm run clean && echo 'Running Static Production ...' && NODE_PATH=./:./src:./src/js ./node_modules/babel-cli/bin/babel-node.js ./server/static.production.js && npm run rename && npm run gzip",
-    "gh-pages": "npm run static && npm run cp && git subtree push --prefix dist origin gh-pages"
+    "gh-pages": "npm run static && npm run cp && git push origin :gh-pages && git subtree push --prefix dist origin gh-pages"
   },
   "keywords": [
     "React",
