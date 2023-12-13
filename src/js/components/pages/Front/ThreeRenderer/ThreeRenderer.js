@@ -106,9 +106,9 @@ class ThreeRenderer extends React.PureComponent {
       wireframe: true
     });
 
-    let cloudTextGeometry = new THREE.TextGeometry('CREATIVE CODING',{
+    let cloudTextGeometry = new THREE.TextGeometry('Software Development',{
       font: new THREE.Font(font),
-      size: 180,
+      size: window.innerWidth / 10,
       height: 10
     }).center();
     console.log(cloudTextGeometry);
@@ -269,7 +269,7 @@ class ThreeRenderer extends React.PureComponent {
           vec3 scene2 = step2 * originPosition;
           
           // Step 3
-          vec3 scene3 = -0.8*step3*scene1 + -1.0*step3*scene2 + step3 * originEndPosition;
+          vec3 scene3 = -0.9*step3*scene1 + -1.0*step3*scene2 + step3 * originEndPosition;
          
           // Combine All Scenes
           vec3 currentPosition = scene1 + scene2 + scene3; //scene1 + scene2 + scene3;

@@ -37,13 +37,16 @@ const style = theme => ({
     textIndent: theme.typography.pxToRem(20),
     letterSpacing: theme.typography.pxToRem(20),
     color: theme.palette.common.white,
-    [theme.breakpoints.down('md')] : {
+    [theme.breakpoints.down('sm')] : {
       fontSize: theme.typography.pxToRem(32),
       textIndent: theme.typography.pxToRem(10),
       letterSpacing: theme.typography.pxToRem(10),
     }
   },
-  button: {
+  navButtonGroup: {
+    marginTop: 20
+  },
+  navButton: {
     width: 36,
     height: 36,
     margin: '0 15px',
@@ -87,7 +90,7 @@ const style = theme => ({
       fontSize: theme.typography.pxToRem(12)
     }
   },
-  buttonIcon: {
+  navButtonIcon: {
     width: 16,
     height: 16,
     // '&.back': {
@@ -97,6 +100,9 @@ const style = theme => ({
     // '&.forward': {
     //   marginLeft: 30
     // }
+  },
+  buttonGroup: {
+    marginTop: 5
   }
 });
 
@@ -132,7 +138,7 @@ const Item = posed.div({
 
 class TypoRenderer extends React.Component{
   state = {
-    titles: ['Hey!','I\'m Duc','AKA U.P','UI/UX DEVELOPER', 'See ya soon!']
+    titles: ['Hi. I\'m DUC','from MELBOURNE', 'FULLSTACK DEVELOPER', (new Date()).getFullYear() - 2012 + '+ yrs exp.', 'Contact me']
   };
   handleSubmit = e => {
     e.preventDefault();
@@ -151,44 +157,44 @@ class TypoRenderer extends React.Component{
               .map(title => {
                 return (
                   <Item key={props.getUID('typo')}>
-                    <Typography align={'center'} className={classes.title}>{title.toUpperCase()}</Typography>
+                    <Typography align={'center'} className={classes.title}>{title}</Typography>
                   </Item>
                 )
               })
             }
           </PoseGroup>
-          <Typography align={'center'}>
-            <Button onClick={props.changeThreeRendereStep.bind(null,props.ui.threeRenderer.step-1)} className={classes.button} variant="fab">
-              <ArrowBack className={classes.buttonIcon + ' back'}/>
+          <Typography className={classes.navButtonGroup} align={'center'}>
+            <Button onClick={props.changeThreeRendereStep.bind(null,props.ui.threeRenderer.step-1)} className={classes.navButton} variant="fab">
+              <ArrowBack className={classes.navButtonIcon + ' back'}/>
             </Button>
 
-            <Button onClick={props.changeThreeRendereStep.bind(null,0)} className={utils.toggleClassNames({ bullet: true, [classes.button]: true, active: props.ui.threeRenderer.step === 0 })} variant="fab">&nbsp;</Button>
-            <Button onClick={props.changeThreeRendereStep.bind(null,1)} className={utils.toggleClassNames({ bullet: true, [classes.button]: true, active: props.ui.threeRenderer.step === 1 })} variant="fab">&nbsp;</Button>
-            <Button onClick={props.changeThreeRendereStep.bind(null,2)} className={utils.toggleClassNames({ bullet: true, [classes.button]: true, active: props.ui.threeRenderer.step === 2 })} variant="fab">&nbsp;</Button>
-            <Button onClick={props.changeThreeRendereStep.bind(null,3)} className={utils.toggleClassNames({ bullet: true, [classes.button]: true, active: props.ui.threeRenderer.step === 3 })} variant="fab">&nbsp;</Button>
-            <Button onClick={props.changeThreeRendereStep.bind(null,4)} className={utils.toggleClassNames({ bullet: true, [classes.button]: true, active: props.ui.threeRenderer.step === 4 })} variant="fab">&nbsp;</Button>
+            <Button onClick={props.changeThreeRendereStep.bind(null,0)} className={utils.toggleClassNames({ bullet: true, [classes.navButton]: true, active: props.ui.threeRenderer.step === 0 })} variant="fab">&nbsp;</Button>
+            <Button onClick={props.changeThreeRendereStep.bind(null,1)} className={utils.toggleClassNames({ bullet: true, [classes.navButton]: true, active: props.ui.threeRenderer.step === 1 })} variant="fab">&nbsp;</Button>
+            <Button onClick={props.changeThreeRendereStep.bind(null,2)} className={utils.toggleClassNames({ bullet: true, [classes.navButton]: true, active: props.ui.threeRenderer.step === 2 })} variant="fab">&nbsp;</Button>
+            <Button onClick={props.changeThreeRendereStep.bind(null,3)} className={utils.toggleClassNames({ bullet: true, [classes.navButton]: true, active: props.ui.threeRenderer.step === 3 })} variant="fab">&nbsp;</Button>
+            <Button onClick={props.changeThreeRendereStep.bind(null,4)} className={utils.toggleClassNames({ bullet: true, [classes.navButton]: true, active: props.ui.threeRenderer.step === 4 })} variant="fab">&nbsp;</Button>
 
-            <Button onClick={props.changeThreeRendereStep.bind(null,props.ui.threeRenderer.step+1)} className={classes.button} variant="fab">
-              <ArrowForward className={classes.buttonIcon + ' forward'}/>
+            <Button onClick={props.changeThreeRendereStep.bind(null,props.ui.threeRenderer.step+1)} className={classes.navButton} variant="fab">
+              <ArrowForward className={classes.navButtonIcon + ' forward'}/>
             </Button>
           </Typography>
           {
             props.ui.threeRenderer.step === 4 && (
               <Fade in={true} mountOnEnter unmountOnExit timeout={{enter: 2000,exit: 3000}}>
-                <Typography align={'center'}>
-                  <a href={'https://up209d.github.io/UPPortfolio'} target={'_blank'}>
-                    <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
-                      Homepage
-                    </Button>
-                  </a>
+                <Typography className={classes.buttonGroup} align={'center'}>
                   <a href={'https://up209d.github.io/UPPortfolio/CV.pdf'} target={'_blank'}>
-                    <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
+                    <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
                       My Resume
                     </Button>
                   </a>
                   <a href={'mailto: up209d@gmail.com'} target={'_blank'}>
-                    <Button className={utils.toggleClassNames([classes.button,'contact'])} variant="flat">
-                      Contact me
+                    <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
+                      up209d@gmail.com
+                    </Button>
+                  </a>
+                  <a href={'callto: +61451872009'} target={'_blank'}>
+                    <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
+                      0451 872 009
                     </Button>
                   </a>
                 </Typography>

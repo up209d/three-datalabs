@@ -51,7 +51,7 @@ export default {
               { value: 32,  delay: 0, config: { duration:  1000 } },
           1:  { value: 16,   delay: 0, config: { duration: 10000 } },
           2:  { value: 64,  delay: 0, config: { duration:  1000 } },
-          3:  { value: 24,   delay: 0, config: { duration:  5000 } },
+          3:  { value: window.innerWidth * 1.5 / 100,   delay: 0, config: { duration:  5000 } },
           4:  { value: 4,   delay: 0, config: { duration:  5000 } },
         }
       },
