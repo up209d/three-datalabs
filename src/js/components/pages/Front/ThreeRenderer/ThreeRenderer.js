@@ -111,7 +111,6 @@ class ThreeRenderer extends React.PureComponent {
       size: window.innerWidth / 10,
       height: 10
     }).center();
-    console.log(cloudTextGeometry);
 
     // Cloud Vertex Geometry
     let cloudVertexGeometry = self.createBufferSphereGeometry(self.state.particleCount);
@@ -309,17 +308,17 @@ class ThreeRenderer extends React.PureComponent {
           //float disRange = (1. - step(RANGE, dis)) * dis; // dis range [0, 0 - RANGE, 0]
           float disRange = (1. - step(RANGE, dis)) * (RANGE - dis); // dis range [0, 0=0, RANGE - 0, 0]
           float disAddedRatio = (1. + (disRange / RANGE)); // ratio rang [1, 1, 2 - 1, 1]
-          disAddedRatio = map(disAddedRatio, 1., 2., 1., 3.); // ratio rang [1, 1, 10 - 1, 1]
+          disAddedRatio = map(disAddedRatio, 1., 2., 1., 5.); // ratio rang [1, 1, 10 - 1, 1]
           
           vec2 lineFromMouseScaled = lineFromMouse * disAddedRatio;
           
           float addedX = mouseX + lineFromMouseScaled.x - currentPosition.x;
           float addedY = mouseY + lineFromMouseScaled.y - currentPosition.y;
           
-          float onlyStep3NearlyDone = step(0.25, step3); // Only when step >= 0.25
+          float onlyStep3NearlyDone = step(0.95, step3); // Only when step >= 0.95
           
-          currentPosition.x += addedX * (abs(mouseSpeedX) * 10.) * onlyStep3NearlyDone;
-          currentPosition.y += addedY * (abs(mouseSpeedY) * 10.) * onlyStep3NearlyDone;
+          currentPosition.x += addedX * (abs(mouseSpeedX) * 15.) * onlyStep3NearlyDone;
+          currentPosition.y += addedY * (abs(mouseSpeedY) * 15.) * onlyStep3NearlyDone;
 
           // Calc motion vector
           fMotionVector = currentPosition - lastPosition;
@@ -449,8 +448,8 @@ class ThreeRenderer extends React.PureComponent {
 
     // Update time
     self.cloudMaterial.uniforms.time.value += (1/self.state.fps)*self.state.speed;
-    self.cloudMaterial.uniforms.mouseSpeedX.value -= self.cloudMaterial.uniforms.mouseSpeedX.value / 10; // Come to zero
-    self.cloudMaterial.uniforms.mouseSpeedY.value -= self.cloudMaterial.uniforms.mouseSpeedY.value / 10; // Come to zero
+    self.cloudMaterial.uniforms.mouseSpeedX.value -= self.cloudMaterial.uniforms.mouseSpeedX.value / 15; // Come to zero
+    self.cloudMaterial.uniforms.mouseSpeedY.value -= self.cloudMaterial.uniforms.mouseSpeedY.value / 15; // Come to zero
 
     // Update Camera Controller
     // self.cameraController.update();
