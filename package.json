@@ -21,6 +21,7 @@
     "gzip": "find ./dist -type f -name '*.css' -o -name '*.html' -o -name '*.js' -o -name '*.json' -o -name '*.svg' | while read file; do gzip -f -k $file; done; echo 'Gzipped Distribution Package!'",
     "mv": "find ./dist -type f -name 'main.html' -o -name 'main.html.gz' | while read file; do mv $file $(echo $file | sed -e 's/main/index/g'); done;",
     "rename": "find ./dist -type f -name 'main.html' -o -name 'main.html.gz' | while read file; do mv $file ${file/main/index}; done;",
+    "cname": "cp ./CNAME ./dist/CNAME",
     "cp": "cp ./.gitignore ./dist/.gitignore && cp ./README.md ./dist/README.md",
     "static": "npm run clean && echo 'Running Static Production ...' && NODE_PATH=./:./src:./src/js ./node_modules/babel-cli/bin/babel-node.js ./server/static.production.js && npm run rename && npm run gzip",
     "gh-pages": "npm run static && npm run cp && git add dist && git commit -m 'to gh-pages' && git push origin `git subtree split --prefix dist master`:gh-pages --force"

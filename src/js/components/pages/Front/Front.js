@@ -41,7 +41,7 @@ class Front extends React.Component{
       <Grid className={classes.container} container justify={'center'} alignItems={'center'}>
         <Grid item xs={12} md={6} lg={4}>
           <ThreeRenderer id={'canvas-'+this.props.getUID()} step={props.ui.threeRenderer.step}/>
-          <TypoRenderer id={'typo-'+this.props.getUID()} title={'DATA ANALYSIS'}/>
+          <TypoRenderer id={'typo-'+this.props.getUID()} />
         </Grid>
       </Grid>
     )

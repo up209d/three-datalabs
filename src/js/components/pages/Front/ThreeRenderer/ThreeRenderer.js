@@ -15,13 +15,13 @@ const global = process.env.BROWSER ? window : {};
 
 const font = require('src/assets/fonts/RobotoThin.json');
 
-// if (process.env.BROWSER) {
-//   // Add Plugins to client only
-//   window.THREE = THREE;
-//   window.POP = POP;
-//   require('three/examples/js/controls/OrbitControls.js');
-//   require('three/examples/js/controls/TrackballControls');
-// }
+if (process.env.BROWSER) {
+  // Add Plugins to client only
+  window.THREE = THREE;
+  window.POP = POP;
+  require('three/examples/js/controls/OrbitControls.js');
+  require('three/examples/js/controls/TrackballControls');
+}
 
 import utils from 'js/utils';
 
@@ -52,7 +52,7 @@ class ThreeRenderer extends React.PureComponent {
   };
   state = {};
   animationHandlers = {};
-  // We dont need this in state so we can mutate it
+  // We don't need this in state so we can mutate it
   timing = {
     frame: 0,
     lastTime: Date.now(),
@@ -71,6 +71,8 @@ class ThreeRenderer extends React.PureComponent {
     let self = this;
     let canvas = self.canvas.current;
 
+    canvas.addEventListener('mousemove', this.mouseMoveHandler);
+
     // RENDERER
     self.renderer = new THREE.WebGLRenderer({
       canvas,
@@ -85,6 +87,8 @@ class ThreeRenderer extends React.PureComponent {
     // CAMERA
     self.camera = new THREE.PerspectiveCamera(self.state.fov,canvas.clientWidth/canvas.clientHeight,1,1000000);
     self.camera.position.set(0,0,0.001);
+
+    // CAMERA CONTROL
     // self.cameraController = new THREE.TrackballControls(self.camera);
     // self.cameraController.update();
 
@@ -101,10 +105,6 @@ class ThreeRenderer extends React.PureComponent {
 
     // STAGE - ROOT SCENE
     self.stage = new THREE.Scene();
-
-    let material = new THREE.MeshNormalMaterial({
-      wireframe: true
-    });
 
     let cloudTextGeometry = new THREE.TextGeometry('Software Development',{
       font: new THREE.Font(font),
@@ -191,10 +191,14 @@ class ThreeRenderer extends React.PureComponent {
       alphaTest: 0.1,
       transparent: true,
       uniforms: {
-				resolution:   { value: window.devicePixelRatio },
+        resolution:   { value: window.devicePixelRatio },
         time:         { value: 0. },
         size:         { value: 0. },
         rotationSpeed:     { value: 0. },
+        mouseX: { value: 0. },
+        mouseSpeedX: { value: 0. },
+        mouseY: { value: 0. },
+        mouseSpeedY: { value: 0. },
         pointOpacity: { value: 0. },
         lineOpacity:  { value: 0. },
         step1:        { value: 0. },
@@ -203,10 +207,14 @@ class ThreeRenderer extends React.PureComponent {
         texture:      { value: cloudVertexTexture }
       },
       vertexShader: `
-				uniform float resolution;
+		uniform float resolution;
         uniform float time;
         uniform float rotationSpeed;
         uniform float size;
+        uniform float mouseX;
+        uniform float mouseY;
+        uniform float mouseSpeedX;
+        uniform float mouseSpeedY;
         uniform float step1;
         uniform float step2;
         uniform float step3;
@@ -227,7 +235,7 @@ class ThreeRenderer extends React.PureComponent {
         attribute float isLine;
         varying float fIsLine;
 
-				varying vec3 fMotionVector;
+		varying vec3 fMotionVector;
         
         const float PI = 3.1415926535897932384626433832795;
         
@@ -253,7 +261,6 @@ class ThreeRenderer extends React.PureComponent {
           qr.w = (q1.w * q2.w) - (q1.x * q2.x) - (q1.y * q2.y) - (q1.z * q2.z);
           return qr;
         }
-       
         
         vec3 rotate_vertex_position(vec3 position, vec3 axis, float angle) { 
           vec4 q = quat_from_axis_angle(axis, angle);
@@ -261,35 +268,61 @@ class ThreeRenderer extends React.PureComponent {
           return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
         }
 
-				vec3 calcPosition(vec3 originPosition, vec3 originEndPosition, float time, float step1, float step2, float step3, float rotationSpeed) {
-          // Step 1
-          vec3 scene1 = step1 * (originPosition * (motionRange/distance(vec3(0.0),originPosition)) * sin(angle*vertexSpeed*time*0.05));
-          
-          // Step 2
-          vec3 scene2 = step2 * originPosition;
-          
-          // Step 3
-          vec3 scene3 = -0.9*step3*scene1 + -1.0*step3*scene2 + step3 * originEndPosition;
-         
-          // Combine All Scenes
-          vec3 currentPosition = scene1 + scene2 + scene3; //scene1 + scene2 + scene3;
-          
-          // Rotation
-          return rotate_vertex_position(currentPosition,vec3(0,1,0),rotationSpeed*360.);
-				}
+		  vec3 calcPosition(vec3 originPosition, vec3 originEndPosition, float time, float step1, float step2, float step3, float rotationSpeed) {
+            // Step 1
+            vec3 scene1 = step1 * (originPosition * (motionRange/distance(vec3(0.0),originPosition)) * sin(angle*vertexSpeed*time*0.05));
+            
+            // Step 2
+            vec3 scene2 = step2 * originPosition;
+            
+            // Step 3
+            vec3 scene3 = -0.9*step3*scene1 + -1.0*step3*scene2 + step3 * originEndPosition;
+           
+            // Combine All Scenes
+            vec3 currentPosition = scene1 + scene2 + scene3; //scene1 + scene2 + scene3;
+            
+            // Rotation
+            return rotate_vertex_position(currentPosition,vec3(0,1,0),rotationSpeed*360.);
+		  }
+		  
+		float map(float value, float min1, float max1, float min2, float max2) {
+          return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+        }
         
         void main() {
           fVertexIndexPercent = vertexIndexPercent;
           fIsLine = isLine;
           fAngle = angle;
 
-					float delta = 1./60.;
+          float delta = 1./60.;
 
-					vec3 lastPosition = calcPosition(position,endPosition,time-delta,step1,step2,step3,rotationSpeed);
-					vec3 currentPosition = calcPosition(position,endPosition,time,step1,step2,step3,rotationSpeed);
+          vec3 lastPosition = calcPosition(position,endPosition,time-delta,step1,step2,step3,rotationSpeed);
+          vec3 currentPosition = calcPosition(position,endPosition,time,step1,step2,step3,rotationSpeed);
+          
+          vec2 lineFromMouse = vec2(currentPosition.xy) - vec2(mouseX, mouseY);
+        
+          float signX = sign(lineFromMouse.x);
+          float signY = sign(lineFromMouse.y);
 
-					// Calc motion vector
-					fMotionVector = currentPosition - lastPosition;
+          float RANGE = 100.;
+          float dis = length(lineFromMouse);
+          //float disRange = (1. - step(RANGE, dis)) * dis; // dis range [0, 0 - RANGE, 0]
+          float disRange = (1. - step(RANGE, dis)) * (RANGE - dis); // dis range [0, 0=0, RANGE - 0, 0]
+          float disAddedRatio = (1. + (disRange / RANGE)); // ratio rang [1, 1, 2 - 1, 1]
+          disAddedRatio = map(disAddedRatio, 1., 2., 1., 3.); // ratio rang [1, 1, 10 - 1, 1]
+          
+          vec2 lineFromMouseScaled = lineFromMouse * disAddedRatio;
+          
+          float addedX = mouseX + lineFromMouseScaled.x - currentPosition.x;
+          float addedY = mouseY + lineFromMouseScaled.y - currentPosition.y;
+          
+          float onlyStep3NearlyDone = step(0.25, step3); // Only when step >= 0.25
+          
+          currentPosition.x += addedX * (abs(mouseSpeedX) * 10.) * onlyStep3NearlyDone;
+          currentPosition.y += addedY * (abs(mouseSpeedY) * 10.) * onlyStep3NearlyDone;
+
+          // Calc motion vector
+          fMotionVector = currentPosition - lastPosition;
 
           // Size
           gl_PointSize = size*resolution;
@@ -303,7 +336,7 @@ class ThreeRenderer extends React.PureComponent {
         uniform float pointOpacity;
         uniform float lineOpacity;
         uniform sampler2D texture;
-				varying vec3 fMotionVector;
+		varying vec3 fMotionVector;
         varying float fVertexIndexPercent;
         varying float fIsLine;
         varying float fAngle;
@@ -378,10 +411,17 @@ class ThreeRenderer extends React.PureComponent {
 
     self.stage.add(cloudLines);
     self.stage.add(cloudPoints);
+
+    // Text Object
+    // let material = new THREE.MeshNormalMaterial({
+    //   wireframe: true,
+    //   opacity: 0.1,
+    //   transparent: true
+    // });
     // let text = new THREE.Mesh( cloudTextGeometry, material );
     // self.stage.add(text);
-    self.updateTiming();
 
+    self.updateTiming();
     self.doAnimations(self.props.step);
   };
 
@@ -409,6 +449,8 @@ class ThreeRenderer extends React.PureComponent {
 
     // Update time
     self.cloudMaterial.uniforms.time.value += (1/self.state.fps)*self.state.speed;
+    self.cloudMaterial.uniforms.mouseSpeedX.value -= self.cloudMaterial.uniforms.mouseSpeedX.value / 10; // Come to zero
+    self.cloudMaterial.uniforms.mouseSpeedY.value -= self.cloudMaterial.uniforms.mouseSpeedY.value / 10; // Come to zero
 
     // Update Camera Controller
     // self.cameraController.update();
@@ -609,6 +651,27 @@ class ThreeRenderer extends React.PureComponent {
     self.camera.aspect = window.innerWidth / window.innerHeight;
     self.camera.updateProjectionMatrix();
     self.renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+  mouseMoveHandler = e => {
+    let self = this;
+    let mPosX = e.clientX || e.screenX || e.pageX || 0.;
+    let mPosY = e.clientY || e.screenY || e.pageY || 0.;
+    let mSpeedX = e.movementX || 0.;
+    let mSpeedY = e.movementY || 0.;
+    const mouse3D = new THREE.Vector3(
+        (mPosX / window.innerWidth) * 2 - 1,
+        -(mPosY / window.innerHeight) * 2 + 1,
+        0.5
+    );
+    mouse3D.unproject(self.camera);
+    const direction = mouse3D.sub(self.camera.position)
+    const distance = -self.camera.position.z / direction.z;
+    const pos = self.camera.position.clone().add(direction.multiplyScalar(distance));
+
+    self.cloudMaterial.uniforms.mouseX.value = pos.x;
+    self.cloudMaterial.uniforms.mouseSpeedX.value += mSpeedX / window.innerWidth;
+    self.cloudMaterial.uniforms.mouseY.value = pos.y;
+    self.cloudMaterial.uniforms.mouseSpeedY.value += mSpeedY / window.innerHeight;
   }
 
   static getDerivedStateFromProps(nextProps,prevState) {
