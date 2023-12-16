@@ -298,6 +298,9 @@ class ThreeRenderer extends React.PureComponent {
           vec3 lastPosition = calcPosition(position,endPosition,time-delta,step1,step2,step3,rotationSpeed);
           vec3 currentPosition = calcPosition(position,endPosition,time,step1,step2,step3,rotationSpeed);
           
+          ///////////////////////////////////////////////////
+          ////////// Position After Mouse - BEGIN //////////
+          /////////////////////////////////////////////////
           vec2 lineFromMouse = vec2(currentPosition.xy) - vec2(mouseX, mouseY);
         
           float signX = sign(lineFromMouse.x);
@@ -319,6 +322,9 @@ class ThreeRenderer extends React.PureComponent {
           
           currentPosition.x += addedX * (abs(mouseSpeedX) * 15.) * onlyStep3NearlyDone;
           currentPosition.y += addedY * (abs(mouseSpeedY) * 15.) * onlyStep3NearlyDone;
+          ///////////////////////////////////////////////////
+          ////////// Position After Mouse - END ////////////
+          /////////////////////////////////////////////////
 
           // Calc motion vector
           fMotionVector = currentPosition - lastPosition;
