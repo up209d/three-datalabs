@@ -138,7 +138,7 @@ const Item = posed.div({
 
 class TypoRenderer extends React.Component{
   state = {
-    titles: ['Hi. I\'m DUC','from MELBOURNE', 'FULLSTACK DEVELOPER', (new Date()).getFullYear() - 2012 + '+ yrs exp.', 'Contact me']
+    titles: ['Hi. I\'m DUC','from MELBOURNE', 'FULLSTACK DEVELOPER', (new Date()).getFullYear() - 2014 + '+ yrs exp.', 'Contact me']
   };
   handleSubmit = e => {
     e.preventDefault();
