@@ -321,7 +321,7 @@ class ThreeRenderer extends React.PureComponent {
           float onlyStep3NearlyDone = step(0.95, step3); // Only when step >= 0.95
           
           currentPosition.x += addedX * (abs(mouseSpeedX) * 15.) * onlyStep3NearlyDone;
-          currentPosition.y += addedY * (abs(mouseSpeedY) * 15.) * onlyStep3NearlyDone;
+          currentPosition.y += addedY * (abs(mouseSpeedX) * 15.) * onlyStep3NearlyDone; // mouseSpeedY
           ///////////////////////////////////////////////////
           ////////// Position After Mouse - END ////////////
           /////////////////////////////////////////////////
@@ -454,7 +454,12 @@ class ThreeRenderer extends React.PureComponent {
 
     // Update time
     self.cloudMaterial.uniforms.time.value += (1/self.state.fps)*self.state.speed;
-    self.cloudMaterial.uniforms.mouseSpeedX.value -= self.cloudMaterial.uniforms.mouseSpeedX.value / 15; // Come to zero
+
+    //-this.state.springConstant * (this.state.currentX - this.state.originX) - this.state.damperConstant * this.state.speedX;
+    const accX = -0.001 * self.cloudMaterial.uniforms.mouseSpeedX.value - 0.1 * self.cloudMaterial.uniforms.mouseSpeedX.value;
+    self.cloudMaterial.uniforms.mouseSpeedX.value += accX;
+
+    // self.cloudMaterial.uniforms.mouseSpeedX.value -= self.cloudMaterial.uniforms.mouseSpeedX.value / 15; // Come to zero
     self.cloudMaterial.uniforms.mouseSpeedY.value -= self.cloudMaterial.uniforms.mouseSpeedY.value / 15; // Come to zero
 
     // Update Camera Controller

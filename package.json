@@ -24,7 +24,8 @@
     "cname": "cp ./CNAME ./dist/CNAME",
     "cp": "cp ./.gitignore ./dist/.gitignore && cp ./README.md ./dist/README.md",
     "static": "npm run clean && echo 'Running Static Production ...' && NODE_PATH=./:./src:./src/js ./node_modules/babel-cli/bin/babel-node.js ./server/static.production.js && npm run rename && npm run gzip",
-    "gh-pages": "npm run static && npm run cp && git add dist && git commit -m 'to gh-pages' && git push origin `git subtree split --prefix dist master`:gh-pages --force"
+    "gh-pages": "npm run static && npm run cp && git add dist && git commit -m 'to gh-pages' && git push origin `git subtree split --prefix dist master`:gh-pages --force",
+    "combo": "yarn rename && yarn gzip && yarn cname"
   },
   "keywords": [
     "React",
