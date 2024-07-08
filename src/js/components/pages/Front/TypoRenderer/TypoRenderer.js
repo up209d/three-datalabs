@@ -182,19 +182,19 @@ class TypoRenderer extends React.Component{
             props.ui.threeRenderer.step === 4 && (
               <Fade in={true} mountOnEnter unmountOnExit timeout={{enter: 2000,exit: 3000}}>
                 <Typography className={classes.buttonGroup} align={'center'}>
-                  <a href={'https://up209d.github.io/UPPortfolio/CV.pdf'} target={'_blank'}>
+                  <a href={'#'} target={'_blank'}>
                     <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
                       My Resume
                     </Button>
                   </a>
-                  <a href={'mailto: up209d@gmail.com'} target={'_blank'}>
+                  <a href={'mailto: #'} target={'_blank'}>
                     <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
-                      up209d@gmail.com
+                      Email
                     </Button>
                   </a>
-                  <a href={'callto: +61451872009'} target={'_blank'}>
+                  <a href={'callto: #'} target={'_blank'}>
                     <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
-                      0451 872 009
+                      Phone
                     </Button>
                   </a>
                 </Typography>
