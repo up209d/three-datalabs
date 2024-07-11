@@ -184,7 +184,7 @@ class TypoRenderer extends React.Component{
                 <Typography className={classes.buttonGroup} align={'center'}>
                   <a href={'#'} target={'_blank'}>
                     <Button className={utils.toggleClassNames([classes.navButton,'contact'])} variant="flat">
-                      My Resume
+                      #
                     </Button>
                   </a>
                   <a href={'mailto: #'} target={'_blank'}>
